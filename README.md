@@ -1,7 +1,8 @@
 # RoA2-Optimization-Scripts
 Scripts to optimize Rivals of Aether 2 on low-mid-end PCs and existing handhelds
 
-# NOTE: I AM NOT THE OWNER/DEVELOPER OF THESE SCRIPTS/MODS. ALL CREDIT GOES TO ZAQK AND RNG_SSB
+# NOTE 1: I AM NOT THE OWNER/DEVELOPER OF THESE SCRIPTS/MODS. ALL CREDIT GOES TO ZAQK AND RNG_SSB
+# NOTE 2: THE LINUX SCRIPT IS FURTHER DEVELOPED THAN THE WINDOWS SCRIPT. THE WINDOWS SCRIPT INSTALLS THE FILES DIRECTLY FROM ZAQK'S GOOGLE DRIVE.
 
 ## What this script does:
 Currently, there is an optimization script provided by zaqk that is available on youtube that can improve overall performance.
@@ -19,7 +20,7 @@ In order to reduce the amount of manual steps (ie. going through directories and
 
 #### Linux:
 1. Open up terminal and navigate to the directory where this README.md is located.
-2. Run the following command in terminal: `./roa2_config_setup.sh`
+2. Run the following command in terminal: `./roa2_config_setup.sh [help/options]` to see what commands are available.
 
 #### Troubleshooting:
 If for some reason, the shell script cannot execute.
