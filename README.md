@@ -1,6 +1,8 @@
 # RoA2-Optimization-Scripts
 Scripts to optimize Rivals of Aether 2 on low-mid-end PCs and existing handhelds
 
+# NOTE: I AM NOT THE OWNER/DEVELOPER OF THESE SCRIPTS/MODS. ALL CREDIT GOES TO ZAQK AND RNG_SSB
+
 ## What this script does:
 Currently, there is an optimization script provided by zaqk that is available on youtube that can improve overall performance.
 
