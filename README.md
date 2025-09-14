@@ -17,5 +17,13 @@ In order to reduce the amount of manual steps (ie. going through directories and
 
 #### Linux:
 1. Open up terminal and navigate to the directory where this README.md is located.
-2. Run the following command: `chmod +x roa2_config_setup.sh`
+2. Run the following command in terminal: `./roa2_config_setup.sh`
+
+#### Troubleshooting:
+If for some reason, the shell script cannot execute.
+1. Run the following command: `chmod +x roa2_config_setup.sh`
+
+
+### License:
+I honestly don't care, but go to your locals.
 
