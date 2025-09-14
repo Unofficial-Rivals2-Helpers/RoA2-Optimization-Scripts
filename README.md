@@ -27,6 +27,10 @@ If for some reason, the shell script cannot execute.
 1. Run the following command: `chmod +x roa2_config_setup.sh`
 
 
+#### Videos:
+This is a list of videos that I'm keeping logged here to showcase the changes in terms of stability and performance:
+https://www.youtube.com/watch?v=ty253O2D6_Y
+
 ### License:
 I honestly don't care, but go to your locals.
 
