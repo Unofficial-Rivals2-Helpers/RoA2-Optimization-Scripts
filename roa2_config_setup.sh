@@ -44,8 +44,10 @@ PC_TYPES=("Default" "Mid" "Low" )
 # Force arguments
 if [[ $# -eq 0 || $1 == "help" ]]; then
   help_msg
+  exit
 elif [[ $1 == options ]]; then
   options_msg
+  exit
 elif [[ $1 -eq 1 ]]; then
   BASE_FOLDER=${NETWORK_TYPE[0]}
   SUB_FOLDER=${PC_TYPES[0]}
@@ -81,6 +83,7 @@ verify_directory $PATH_TO_STEAM_APPS
 # Installation of Configuration Files
 PATH_TO_STEAM_CONFIG=$PATH_TO_STEAM_APPS/compatdata/2217000/pfx/drive_c/users/steamuser/AppData/Local/Rivals2/Saved/Config/Windows
 CONFIG_FILES=$SCRIPT_LOCATION
+rm -f $PATH_TO_STEAM_CONFIG/*
 cp $CONFIG_FILES/* $PATH_TO_STEAM_CONFIG
 
 # Installation of Potato Mod
