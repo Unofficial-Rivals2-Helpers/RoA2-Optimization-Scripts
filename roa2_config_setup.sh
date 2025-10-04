@@ -109,7 +109,7 @@ ssd_setup() {
 }
 
 
-run_script() {
+setup() {
   # Handle possible edge case
   if [[ $# -eq 0 ]]; then
     printf "Error" 
@@ -137,7 +137,7 @@ run_script() {
 }
 
 
-get_path() {
+get_folder_names_and_start() {
   local BASE_FOLDER
   local SUB_FOLDER
   if [[ $1 -eq 1 ]]; then
@@ -157,12 +157,12 @@ get_path() {
     SUB_FOLDER=""
   else
     echo -e "Invalid Argument provided. Exiting"
-    # sleep 2
+    sleep 2
     exit
   fi
   echo -e "Copying files from Scripts/$BASE_FOLDER/$SUB_FOLDER to Rivals Config Directory"
 
-  run_script "$BASE_FOLDER" "$SUB_FOLDER"
+  setup "$BASE_FOLDER" "$SUB_FOLDER"
 }
 
 
@@ -213,7 +213,7 @@ main() {
 
     local vram_result
     if [[ $drive_result -eq 2 ]]; then
-      get_path 5
+      get_folder_names_and_start 5
     elif [[ $drive_result -eq 1 ]]; then
       echo -e "How much VRAM does your GPU have?"
       echo -e "\t Type 1 if your GPU has 16 GB of VRAM"
@@ -225,13 +225,13 @@ main() {
     fi
 
     echo Chose: "$vram_result"
-    get_path "$vram_result"
+    get_folder_names_and_start "$vram_result"
     exit
   elif [[ $1 == options ]]; then
     options_msg
     exit
   else
-    get_path "$1"
+    get_folder_names_and_start "$1"
   fi
 }
 
