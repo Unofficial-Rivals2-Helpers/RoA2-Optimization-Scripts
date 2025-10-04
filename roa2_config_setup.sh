@@ -1,6 +1,6 @@
 # Thanks to zaqk for the optimization guide and the developer of the PotatoMod
 verify_directory() {
-  if [ -d $1 ]; then
+  if [ -d "$1" ]; then
     echo "Steam directory has been found, script will continue."
   else
     echo "Steam directory does not exist in default directory, modify this script to point to the correct path."
@@ -84,12 +84,12 @@ verify_directory $PATH_TO_STEAM_APPS
 PATH_TO_STEAM_CONFIG=$PATH_TO_STEAM_APPS/compatdata/2217000/pfx/drive_c/users/steamuser/AppData/Local/Rivals2/Saved/Config/Windows
 CONFIG_FILES=$SCRIPT_LOCATION
 rm -f $PATH_TO_STEAM_CONFIG/*
-cp $CONFIG_FILES/* $PATH_TO_STEAM_CONFIG
+cp "$CONFIG_FILES"/* $PATH_TO_STEAM_CONFIG
 
 # Installation of Potato Mod
 PATH_TO_STEAM_LOCAL=$PATH_TO_STEAM_APPS/common/Rivals\ 2/Rivals2/Content/Paks
 POTATO_MOD_PATH=$PATH_TO_STEAM_LOCAL/potato.zip
-cd "$PATH_TO_STEAM_LOCAL"
+cd "$PATH_TO_STEAM_LOCAL" || exit
 wget -O "$POTATO_MOD_PATH" https://gamebanana.com/dl/1446017
 unzip "$POTATO_MOD_PATH"
 rm "$POTATO_MOD_PATH"
