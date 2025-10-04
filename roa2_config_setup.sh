@@ -1,5 +1,19 @@
+#!/bin/bash
 # Thanks to zaqk for the optimization guide and the developer of the PotatoMod
-verify_directory() {
+
+# Top level definitions
+PATH_TO_STEAM_APPS=~/.steam/steam/steamapps
+PATH_TO_STEAM_CONFIG=$PATH_TO_STEAM_APPS/compatdata/2217000/pfx/drive_c/users/steamuser/AppData/Local/Rivals2/Saved/Config/Windows
+CopiedFilesDir=$(pwd)/CopiedFiles
+LastCopiedConfig=$CopiedFilesDir/0_LAST_COPIED_CONFIG.txt
+
+declare -a READ_ONLY_FILES=("Engine.ini" "Scalability.ini")
+
+DRIVE_TYPE=("SSD" "HDD")
+PC_TYPES=("16GB_VRAM" "12GB_VRAM" "08GB_VRAM" "06GB_VRAM")
+
+
+verify_steam_directory() {
   if [ -d "$1" ]; then
     echo "Steam directory has been found, script will continue."
   else
@@ -8,89 +22,217 @@ verify_directory() {
   fi
 }
 
+
 help_msg() {
   echo "This script assumes that steam is installed in the default location(s)"
   echo "Linux: Steam is installed in $HOME"
   echo "Windows: Steam is installed in Program Files (x86)"
-  echo "By default: Potato mod will be installed, so either comment it out in this bash script or hold your peace."
+  echo "By default: Potato mod will not be installed by default, if you are interested in getting potato mod, run ./roa2_install_potato_mod.sh"
   echo "Running the script:"
   echo -e "\tExecute ./roa2_config_setup.sh [Value]"
   echo -e "\tExample: ./roa2_config_setup.sh 2\n"
   echo "Run ./roa2_config_setup.sh options to see all available configurations"
 }
 
+
 options_msg() {
   echo "Configurations have been premade and are located in Scripts/"
-  echo "There are two folders, one including modified network settings and one without"
-  echo "Options 1-3:"
+  echo "There are two folders, one for SSD and one for HDD"
+  echo "SSD Options 1-4:"
   echo -e "\t ./roa2_config_setup 1"
-  echo -e "\t This will by default setup the GameUserSettings.ini and Engine.ini with network settings and assumes you have a \"good\" PC."
+  echo -e "\t Choose this option if RoA2 is installed on a SSD, and your graphics card has 16 GB of VRAM"
   echo -e "\t ./roa2_config_setup 2"
-  echo -e "\t This will by default setup the GameUserSettings.ini and Engine.ini with network settings and assumes you have a \"mid\" PC."
+  echo -e "\t Choose this option if RoA2 is installed on a SSD, and your graphics card has 12 GB of VRAM"
   echo -e "\t ./roa2_config_setup 3"
-  echo -e "\t This will by default setup the GameUserSettings.ini and Engine.ini with network settings and assumes you have a \"low-end\" PC."
-  echo "Options 4-6:"
+  echo -e "\t Choose this option if RoA2 is installed on a SSD, and your graphics card has 8 GB of VRAM"
   echo -e "\t ./roa2_config_setup 4"
-  echo -e "\t This will by default setup the GameUserSettings.ini and Engine.ini without network settings and assumes you have a \"good\" PC."
+  echo -e "\t Choose this option if RoA2 is installed on a SSD, and your graphics card has 6 GB of VRAM"
+  echo "HDD Option (5):"
   echo -e "\t ./roa2_config_setup 5"
-  echo -e "\t This will by default setup the GameUserSettings.ini and Engine.ini without network settings and assumes you have a \"mid\" PC."
-  echo -e "\t ./roa2_config_setup 6"
-  echo -e "\t This will by default setup the GameUserSettings.ini and Engine.ini without network settings and assumes you have a \"low-end\" PC."
+  echo -e "\t Choose this option if RoA2 is installed on a HDD"
 }
 
 
-NETWORK_TYPE=("NetworkSettingsApplied" "NoNetworkSettingsApplied")
-PC_TYPES=("Default" "Mid" "Low" )
-# Force arguments
-if [[ $# -eq 0 || $1 == "help" ]]; then
-  help_msg
-  exit
-elif [[ $1 == options ]]; then
-  options_msg
-  exit
-elif [[ $1 -eq 1 ]]; then
-  BASE_FOLDER=${NETWORK_TYPE[0]}
-  SUB_FOLDER=${PC_TYPES[0]}
-  echo -e "Installing Configuration File with Network Settings and RenderTargetPoolMin=4096 Streaming.PoolSize=0"
-elif [[ $1 -eq 2 ]]; then
-  BASE_FOLDER=${NETWORK_TYPE[0]}
-  SUB_FOLDER=${PC_TYPES[1]}
-  echo -e "Installing Configuration File with Network Settings and RenderTargetPoolMin=2048 Streaming.PoolSize=8000"
-elif [[ $1 -eq 3 ]]; then
-  BASE_FOLDER=${NETWORK_TYPE[0]}
-  SUB_FOLDER=${PC_TYPES[2]}
-  echo -e "Installing Configuration File with Network Settings and RenderTargetPoolMin=1024 Streaming.PoolSize=6000"
-elif [[ $1 -eq 4 ]]; then
-  BASE_FOLDER=${NETWORK_TYPE[1]}
-  SUB_FOLDER=${PC_TYPES[0]}
-  echo -e "Installing Configuration File without Network Settings and RenderTargetPoolMin=4096 Streaming.PoolSize=0"
-elif [[ $1 -eq 5 ]]; then
-  BASE_FOLDER=${NETWORK_TYPE[1]}
-  SUB_FOLDER=${PC_TYPES[1]}
-  echo -e "Installing Configuration File without Network Settings and RenderTargetPoolMin=2048 Streaming.PoolSize=8000"
-elif [[ $1 -eq 6 ]]; then
-  BASE_FOLDER=${NETWORK_TYPE[1]}
-  SUB_FOLDER=${PC_TYPES[2]}
-  echo -e "Installing Configuration File without Network Settings and RenderTargetPoolMin=1024 Streaming.PoolSize=6000"
-fi
+copy_files() {
+  verify_steam_directory $PATH_TO_STEAM_APPS
 
-CURRENT_DIR=$(pwd)
-SCRIPT_LOCATION=$CURRENT_DIR/Scripts/$BASE_FOLDER/$SUB_FOLDER
+  echo "Deleting old config files in $PATH_TO_STEAM_CONFIG"
+  rm -f $PATH_TO_STEAM_CONFIG/*
 
-PATH_TO_STEAM_APPS=~/.steam/steam/steamapps
-verify_directory $PATH_TO_STEAM_APPS
+  cp "$CopiedFilesDir"/*.ini $PATH_TO_STEAM_CONFIG
 
-# Installation of Configuration Files
-PATH_TO_STEAM_CONFIG=$PATH_TO_STEAM_APPS/compatdata/2217000/pfx/drive_c/users/steamuser/AppData/Local/Rivals2/Saved/Config/Windows
-CONFIG_FILES=$SCRIPT_LOCATION
-rm -f $PATH_TO_STEAM_CONFIG/*
-cp "$CONFIG_FILES"/* $PATH_TO_STEAM_CONFIG
+  echo "Setting Read Permissions only for "
+  for f in "${READ_ONLY_FILES[@]}"; do
+    local fn=$PATH_TO_STEAM_CONFIG/"$f"
+    echo "$fn"
+    chmod 444 $PATH_TO_STEAM_CONFIG/"$f"
+  done
+}
 
-# Installation of Potato Mod
-PATH_TO_STEAM_LOCAL=$PATH_TO_STEAM_APPS/common/Rivals\ 2/Rivals2/Content/Paks
-POTATO_MOD_PATH=$PATH_TO_STEAM_LOCAL/potato.zip
-cd "$PATH_TO_STEAM_LOCAL" || exit
-wget -O "$POTATO_MOD_PATH" https://gamebanana.com/dl/1446017
-unzip "$POTATO_MOD_PATH"
-rm "$POTATO_MOD_PATH"
 
+generate_last_config_text() {
+  local cfg=$1
+  echo "$cfg" > "$LastCopiedConfig"
+}
+
+
+hdd_setup() {
+  # Create empty file with last type of 
+  # configuration copied to RoA2 Configuration Directory
+  local BASE_FOLDER=$1
+  generate_last_config_text "$BASE_FOLDER"
+
+  local CURRENT_DIR
+  CURRENT_DIR=$(pwd)
+
+  local SCRIPT_LOCATION
+  SCRIPT_LOCATION=$CURRENT_DIR/Scripts/$BASE_FOLDER
+
+  cp "$SCRIPT_LOCATION"/*.ini "$CopiedFilesDir"
+  copy_files
+}
+
+
+ssd_setup() {
+  local BASE_FOLDER=$1
+  local SUB_FOLDER=$2
+
+  generate_last_config_text "$BASE_FOLDER"/"$SUB_FOLDER"
+  local CURRENT_DIR
+  CURRENT_DIR=$(pwd)
+
+  local SCRIPT_LOCATION
+  SCRIPT_LOCATION=$CURRENT_DIR/Scripts/$BASE_FOLDER/$SUB_FOLDER
+
+  cp "$SCRIPT_LOCATION"/*.ini "$CopiedFilesDir"
+  copy_files
+}
+
+
+run_script() {
+  # Handle possible edge case
+  if [[ $# -eq 0 ]]; then
+    printf "Error" 
+  fi
+
+  local BASE_FOLDER
+  BASE_FOLDER=$1
+
+  # Check if the LastCopiedDirectory exists
+  if [ -d "$CopiedFilesDir" ]; then
+    echo "$CopiedFilesDir directory exists, copied configurations files will be copied there"
+  else
+    echo "$CopiedFilesDir directory does not exist, creating directory"
+    mkdir "$CopiedFilesDir"
+  fi
+
+  local drive_install=${1}
+  if [[ ${drive_install} == "HDD" ]]; then
+    hdd_setup "$BASE_FOLDER"
+  else
+    local SUB_FOLDER
+    SUB_FOLDER=$2
+    ssd_setup "$BASE_FOLDER" "$SUB_FOLDER"
+  fi
+}
+
+
+get_path() {
+  local BASE_FOLDER
+  local SUB_FOLDER
+  if [[ $1 -eq 1 ]]; then
+    BASE_FOLDER=${DRIVE_TYPE[0]}
+    SUB_FOLDER=${PC_TYPES[0]}
+  elif [[ $1 -eq 2 ]]; then
+    BASE_FOLDER=${DRIVE_TYPE[0]}
+    SUB_FOLDER=${PC_TYPES[1]}
+  elif [[ $1 -eq 3 ]]; then
+    BASE_FOLDER=${DRIVE_TYPE[0]}
+    SUB_FOLDER=${PC_TYPES[2]}
+  elif [[ $1 -eq 4 ]]; then 
+    BASE_FOLDER=${DRIVE_TYPE[0]}
+    SUB_FOLDER=${PC_TYPES[3]}
+  elif [[ $1 -eq 5 ]]; then
+    BASE_FOLDER=${DRIVE_TYPE[1]}
+    SUB_FOLDER=""
+  else
+    echo -e "Invalid Argument provided. Exiting"
+    # sleep 2
+    exit
+  fi
+  echo -e "Copying files from Scripts/$BASE_FOLDER/$SUB_FOLDER to Rivals Config Directory"
+
+  run_script "$BASE_FOLDER" "$SUB_FOLDER"
+}
+
+
+drive_prompt() {
+  local drive
+  read -r drive
+  if [[ ${drive} == "1" ]]; then
+    echo 1
+  elif [[ ${drive} == "2" ]]; then
+    echo 2
+  else
+    echo 255
+  fi
+}
+
+
+vram_prompt() {
+  local vram
+  read -r vram
+  if [[ ${vram} == "1" ]]; then
+    echo 1
+  elif [[ ${vram} == "2" ]]; then
+    echo 2
+  elif [[ ${vram} == "3" ]]; then
+    echo 3
+  elif [[ ${vram} == "4" ]]; then
+    echo 2
+  else
+    echo 255
+  fi
+}
+
+main() {
+  if [[ $# -eq 0 || $1 == "help" ]]; then
+    # If user decides to run this executable without arguments or via double click
+    help_msg
+    options_msg
+
+    echo "Is RoA2 installed on your SSD or HDD? Type and press 1 if installed on an SSD, Type 2 if installed on a HDD"
+    # local drive_result
+    local drive_result
+    drive_result=$(drive_prompt)
+    if [[ $drive_result -eq 255 ]]; then
+      echo "Not a valid option. Exiting program."
+      sleep 2
+      exit
+    fi
+
+    local vram_result
+    if [[ $drive_result -eq 2 ]]; then
+      get_path 5
+    elif [[ $drive_result -eq 1 ]]; then
+      echo -e "How much VRAM does your GPU have?"
+      echo -e "\t Type 1 if your GPU has 16 GB of VRAM"
+      echo -e "\t Type 2 if your GPU has 12 GB of VRAM"
+      echo -e "\t Type 3 if your GPU has 8 GB of VRAM"
+      echo -e "\t Type 4 if your GPU has 6 GB of VRAM"
+
+      vram_result=$(vram_prompt)
+    fi
+
+    echo Chose: "$vram_result"
+    get_path "$vram_result"
+    exit
+  elif [[ $1 == options ]]; then
+    options_msg
+    exit
+  else
+    get_path "$1"
+  fi
+}
+
+main "$@" 
