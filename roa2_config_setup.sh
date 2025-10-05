@@ -27,29 +27,16 @@ help_msg() {
   echo "This script assumes that steam is installed in the default location(s)"
   echo "Linux: Steam is installed in $HOME"
   echo "Windows: Steam is installed in Program Files (x86)"
-  echo "By default: Potato mod will not be installed by default, if you are interested in getting potato mod, run ./roa2_install_potato_mod.sh"
-  echo "Running the script:"
-  echo -e "\tExecute ./roa2_config_setup.sh [Value]"
-  echo -e "\tExample: ./roa2_config_setup.sh 2\n"
-  echo "Run ./roa2_config_setup.sh options to see all available configurations"
+  echo "[NOTE] By default: Potato mod will not be installed by default, if you are interested in getting potato mod, run roa2_install_potato_mod.bat"
 }
 
 
 options_msg() {
-  echo "Configurations have been premade and are located in Scripts/"
-  echo "There are two folders, one for SSD and one for HDD"
-  echo "SSD Options 1-4:"
-  echo -e "\t ./roa2_config_setup 1"
-  echo -e "\t Choose this option if RoA2 is installed on a SSD, and your graphics card has 16 GB of VRAM"
-  echo -e "\t ./roa2_config_setup 2"
-  echo -e "\t Choose this option if RoA2 is installed on a SSD, and your graphics card has 12 GB of VRAM"
-  echo -e "\t ./roa2_config_setup 3"
-  echo -e "\t Choose this option if RoA2 is installed on a SSD, and your graphics card has 8 GB of VRAM"
-  echo -e "\t ./roa2_config_setup 4"
-  echo -e "\t Choose this option if RoA2 is installed on a SSD, and your graphics card has 6 GB of VRAM"
-  echo "HDD Option (5):"
-  echo -e "\t ./roa2_config_setup 5"
-  echo -e "\t Choose this option if RoA2 is installed on a HDD"
+    printf "\n===============================================================================\n"
+    printf "Configurations have been premade and are located in Scripts/\n"
+    printf "There are two types of configurations, one for SSD and one for HDD\n"
+    printf "Please answer the prompts below to apply the optimizations based on your system.\n"
+    printf "===============================================================================\n"
 }
 
 
@@ -215,16 +202,15 @@ main() {
     if [[ $drive_result -eq 2 ]]; then
       get_folder_names_and_start 5
     elif [[ $drive_result -eq 1 ]]; then
-      echo -e "How much VRAM does your GPU have?"
-      echo -e "\t Type 1 if your GPU has 16 GB of VRAM"
-      echo -e "\t Type 2 if your GPU has 12 GB of VRAM"
-      echo -e "\t Type 3 if your GPU has 8 GB of VRAM"
-      echo -e "\t Type 4 if your GPU has 6 GB of VRAM"
+      printf "How much VRAM does your GPU have?\n"
+      printf "\t Type 1 if your GPU has 16 GB of VRAM\n"
+      printf "\t Type 2 if your GPU has 12 GB of VRAM\n"
+      printf "\t Type 3 if your GPU has 8 GB of VRAM\n"
+      printf "\t Type 4 if your GPU has 6 GB of VRAM\n"
 
       vram_result=$(vram_prompt)
     fi
 
-    echo Chose: "$vram_result"
     get_folder_names_and_start "$vram_result"
     exit
   elif [[ $1 == options ]]; then
