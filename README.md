@@ -53,7 +53,7 @@ In order to reduce the amount of manual steps (ie. going through directories and
 
 ## Making updates to the configuration file
 ### Requirements
-1. Steps from Running-the-Main-Script-for-the-first time has been performed.
+1. Steps from [here](#running-the-main-script-for-the-first-time) has been performed.
 
 ### Usage
 1. Navigate to `[RoA2-Optimization-Scripts Directory]/CopiedFiles`
