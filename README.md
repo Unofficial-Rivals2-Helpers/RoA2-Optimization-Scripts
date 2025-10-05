@@ -18,12 +18,21 @@ In order to reduce the amount of manual steps (ie. going through directories and
 - `roa2_config_setup.ps1`
     - This is the "core". This prompts the user based on specific system requirements (eg. Has RoA2 been installed on an HDD or SSD?), generates the CopiedFiles/ directory which copies the appropriate configuration files from Scripts/ and then to the RoA2 Config directory.
 
+#### Linux
+- `roa2_config_setup.sh`
+    - This is the "core". This prompts the user based on specific system requirements (eg. Has RoA2 been installed on an HDD or SSD?), generates the CopiedFiles/ directory which copies the appropriate configuration files from Scripts/ and then to the RoA2 Config directory.
 
 ### Optional Scripts:
-#### Window
+#### Windows
 - `roa2_install_potato_mod.bat`
     - This will automatically download the potatomod from gamebanana, unzip the file and place the .pak file in your Rivals 2 Paks directory.
 - `update_config.bat`
+    - This is for users that want to tweak their configuration file without having to manually toggle Read-Only for their Engine.ini or Scalability.ini files. 
+
+#### Linux 
+- `roa2_install_potato_mod.sh`
+    - This will automatically download the potatomod from gamebanana, unzip the file and place the .pak file in your Rivals 2 Paks directory.
+- `update_config.sh`
     - This is for users that want to tweak their configuration file without having to manually toggle Read-Only for their Engine.ini or Scalability.ini files. 
 
 ## Requirements
@@ -44,12 +53,29 @@ In order to reduce the amount of manual steps (ie. going through directories and
 1. Read and answer the prompts as necessary
 
 ### Windows (Powershell Terminal)
-1. Run .\roa2_config_setup.ps1
+1. Run `.\roa2_config_setup.ps1` in your powershell terminal
+1. Read and answer the prompts as necessary
+
+### Linux (GUI)
+1. Right click `./roa2_config_setup.sh`
+1. Select `Run as a program`
 1. Read and answer the prompts as necessary
 
 ### Linux (Terminal)
-1. Open up terminal and navigate to the directory where this README.md is located.
-1. Run the following command in terminal: `./roa2_config_setup.sh [help/options]` to see what commands are available.
+1. Run the following command in terminal:
+> `./roa2_config_setup.sh`
+1. Read and answer the prompts as necessary
+
+## Installing Potato Mod
+### Windows:
+1. Run `roa2_install_potato_mod.bat`
+
+### Linux (GUI)
+1. Right click `roa2_install_potato_mod.sh` 
+1. Select `Run as a program`
+
+### Linux (Terminal)
+1. Run `./roa2_install_potato_mod.sh`
 
 ## Making updates to the configuration file
 ### Requirements
@@ -58,29 +84,39 @@ In order to reduce the amount of manual steps (ie. going through directories and
 ### Usage
 1. Navigate to `[RoA2-Optimization-Scripts Directory]/CopiedFiles`
 1. Update any of the .ini files.
+
 #### Windows
 1. Run `update-config.bat`
 
-#### Linux
+#### Linux GUI
+1. Right click `update-config.sh`
+1. Select `Run as a program`
+
+#### Linux (Terminal)
 1. Run `update-config.sh`
 
 ## Troubleshooting:
 
 ### Windows:
 1. I'm getting the following error:
-> .\roa2_config_setup.ps1 : File C:\Users\zab0\Documents\RoA2-Optimization-Scripts\roa2_config_setup.ps1 cannot be loaded because running scripts is disabled on this system. 
+> `.\roa2_config_setup.ps1 : File C:\Users\zab0\Documents\RoA2-Optimization-Scripts\roa2_config_setup.ps1 cannot be loaded because running scripts is disabled on this system. `
 
 Answer: To fix this issue, run `roa2_config_setup.bat` instead.
+
 Reason: Due to how Windows Security Policies are, they do not allow users to run powershell scripts unless the CurrentUser Execution Policy is set to the appropriate field. Running `roa2_config_setup.bat` bypasses the policy temporarily to run the powershell script.
 
 ### Linux:
 1. I can't run the shell file as an executable.
+
 Answer: (Terminal) Run the following command: `chmod +x roa2_config_setup.sh`
+
 Answer: (GUI) Right click `roa2_config_setup.sh`, go to properties and make the 
+
 Reason: `roa2_config_setup.sh` may not be seen as executable after being downloaded from a release build.
 
 ### Videos:
 This is a list of videos that I'm keeping logged here to showcase the changes in terms of stability and performance:
+
 https://www.youtube.com/watch?v=ty253O2D6_Y
 
 ### License:
