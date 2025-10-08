@@ -197,6 +197,7 @@ nominal_exit_msg()
   printf "${YELLOW}%s${NC}\n" "$CopiedFilesDir"
   printf "Run update_config.bat\n"
   printf "===============================================================================\n"
+  sleep 5
 }
 
 main() {
@@ -227,9 +228,9 @@ main() {
 
       vram_result=$(vram_prompt)
       get_folder_names_and_start "$vram_result"
+      nominal_exit_msg
     fi
 
-    nominal_exit_msg
     exit
   elif [[ $1 == options ]]; then
     options_msg
