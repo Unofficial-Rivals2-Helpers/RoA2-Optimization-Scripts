@@ -182,6 +182,23 @@ vram_prompt() {
   fi
 }
 
+nominal_exit_msg()
+{
+  local YELLOW
+  YELLOW='\033[0;33m'
+  local NC
+  NC='\033[0m'
+  local BLUE
+  BLUE='\033[34m'
+
+  printf "\n===============================================================================\n"
+  printf "${BLUE}%s${NC}" "Zaqk_README.txt for more information on adjusting things as needed"
+  printf "\nNeed to update your config files? Make changes to your .ini files in:\n"
+  printf "${YELLOW}%s${NC}\n" "$CopiedFilesDir"
+  printf "Run update_config.bat\n"
+  printf "===============================================================================\n"
+}
+
 main() {
   if [[ $# -eq 0 || $1 == "help" ]]; then
     # If user decides to run this executable without arguments or via double click
@@ -209,9 +226,10 @@ main() {
       printf "\t Type 4 if your GPU has 6 GB of VRAM\n"
 
       vram_result=$(vram_prompt)
+      get_folder_names_and_start "$vram_result"
     fi
 
-    get_folder_names_and_start "$vram_result"
+    nominal_exit_msg
     exit
   elif [[ $1 == options ]]; then
     options_msg
