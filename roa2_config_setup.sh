@@ -184,17 +184,18 @@ vram_prompt() {
 
 nominal_exit_msg()
 {
-  local YELLOW
-  YELLOW='\033[0;33m'
+
+  local BLUE_BACKGROUND
+  BLUE_BACKGROUND='\033[44m'
   local NC
   NC='\033[0m'
-  local BLUE
-  BLUE='\033[34m'
-
   printf "\n===============================================================================\n"
-  printf "${BLUE}%s${NC}" "Zaqk_README.txt for more information on adjusting things as needed"
+  printf "${BLUE_BACKGROUND}%s${NC}" "Zaqk_README.txt for more information on adjusting things as needed"
   printf "\nNeed to update your config files? Make changes to your .ini files in:\n"
-  printf "${YELLOW}%s${NC}\n" "$CopiedFilesDir"
+
+  local YELLOW_TXT
+  YELLOW_TXT='\033[0;33m'
+  printf "${YELLOW_TXT}%s${NC}\n" "$CopiedFilesDir"
   printf "Run update_config.bat\n"
   printf "===============================================================================\n"
   sleep 5
@@ -228,9 +229,9 @@ main() {
 
       vram_result=$(vram_prompt)
       get_folder_names_and_start "$vram_result"
-      nominal_exit_msg
     fi
 
+    nominal_exit_msg
     exit
   elif [[ $1 == options ]]; then
     options_msg
