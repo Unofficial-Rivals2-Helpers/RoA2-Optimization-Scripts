@@ -135,7 +135,7 @@ function VRAM-Prompt() {
     Write-Host "`t Type 4 if your GPU has 6 GB of VRAM"
     
     [int]$vram = Read-Host -Prompt "How much VRAM does your GPU have?"
-    if ($vram -gt 0 -and $vram -lt 4) {
+    if ($vram -ge 1 -and $vram -le 4) {
         return $vram
     }
     return $ERROR
