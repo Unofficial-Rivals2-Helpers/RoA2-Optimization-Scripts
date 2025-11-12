@@ -83,7 +83,7 @@ function Setup() {
         Write-Debug "$COPIED_FILES_DIR exists. Copied configuration files will be stored here"
     }
     else {
-        Write-Debug $COPIED_FILES_DIR does not exist. Creating directory.
+        Write-Debug "$COPIED_FILES_DIR does not exist. Creating directory."
         New-Item $COPIED_FILES_DIR -ItemType Directory
     }
 
