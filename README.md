@@ -94,6 +94,14 @@ In order to reduce the amount of manual steps (ie. going through directories and
 #### Linux (Terminal)
 1. Run `update-config.sh`
 
+### Removing the files (Windows):
+    To delete the config files on Windows:
+    Go to the config file location (%localappdata%\Rivals2\Saved\Config\Windows), and delete all three .ini files in there. When you attempt to boot up next time, it should be replaced with the default files.
+
+### Removing the files (Linux):
+    To delete the config files on Linux:
+    Go to the config file location (~/.steam/steam/steamapps/compatdata/2217000/pfx/drive_c/users/steamuser/AppData/Local/Rivals2/Saved/Config/Windows), and delete all .ini files in there. When you attempt to boot up next time, it will be replaced with the default config file.
+
 ## Troubleshooting:
 
 ### Windows:
@@ -116,7 +124,7 @@ Reason: `roa2_config_setup.sh` may not be seen as executable after being downloa
 ### Videos:
 This is a list of videos that I'm keeping logged here to showcase the changes in terms of stability and performance:
 
-https://www.youtube.com/watch?v=ty253O2D6_Y
+https://youtu.be/Btngf5O7tmM?si=lijtFdpecReoN7Lm
 
 ### License:
 I honestly don't care, but go to your locals and give zaqk their thanks.
